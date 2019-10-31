@@ -17,55 +17,62 @@ SoundCloud.init = function() {
 SoundCloud.get = function(search) {
     // find all sounds of buskers licensed under 'creative commons share alike'
     SC.get('/tracks', {
-        q: 'search'
+        q: search
     }).then(function(tracks) {
         console.log(tracks);
+        makeTrackList(tracks);
     });
 }
 
-SoundCloud.randerTraks = function() {
+
+function makeTrackList(tracks) {
+
+    tracks.forEach(function(track) {
+        SoundCloud.randerTracks(track);
+    });
+
+}
+
+SoundCloud.randerTracks = function(track) {
+    // card
 
     var search = document.querySelector(".js-search-results");
+
     var card = document.createElement("div");
 
-    // creating image div
+    // image
     var image = document.createElement("div");
     image.classList.add("image");
 
     var img = document.createElement("img");
     img.classList.add("image_img");
-    img.src = "http://www.placekitten.com/290/290";
-
-    // adding img tag to image div
+    img.src = track.artwork_url ? track.artwork_url : "http://lorempixel.com/g/200/200/abstract";
     image.appendChild(img);
 
-    // adding image div to card div
     card.appendChild(image);
 
-    //creating content div
+    //content
     var content = document.createElement("div");
     content.classList.add("content");
 
-    // creating card header div tob be added inside content div
+    //header
     var header = document.createElement("div");
     header.classList.add("header");
-    // creating a tag tinside header
     var a = document.createElement("a");
-    a.href = "https://soundcloud.com/barsuk-records/rilo-kiley-science-vs-romance";
+    a.href = track.permalink_url;
     a.target = "_blank";
-    a.innerHTML = "Science Vs. Romance";
-    //appending to header
+    a.innerHTML = track.permalink;
     header.appendChild(a);
-    // appending to content
     content.appendChild(header);
+
     // appending to card
     card.appendChild(content);
 
-    //bottom part 
+    //bottom
     var bottom = document.createElement("div");
     bottom.classList.add("ui", "bottom", "attached", "button", "js-button");
 
-    // creating i and span(add to playlist)
+    // i and span
     var i = document.createElement("i");
     i.classList.add("add", "icon");
     var span = document.createElement("span");
@@ -79,6 +86,7 @@ SoundCloud.randerTraks = function() {
     card.appendChild(bottom);
 
     card.classList.add("card");
+
     search.appendChild(card);
 
 }
@@ -86,8 +94,8 @@ SoundCloud.randerTraks = function() {
 
 
 SoundCloud.init();
-SoundCloud.get('chandrabindu');
-SoundCloud.randerTraks();
+
+SoundCloud.get("beatles");
 
 
 
