@@ -102,21 +102,6 @@ SoundCloud.randerTracks = function(track) {
 }
 
 
-
-SoundCloud.init();
-
-SoundCloud.get("Rilo Kiley");
-
-
-
-
-
-
-
-
-
-
-
 // add to playlist and play
 
 SoundCloud.getEmbed = function(trackURL) {
@@ -126,6 +111,26 @@ SoundCloud.getEmbed = function(trackURL) {
     }).then(function(embed) {
         console.log('oEmbed response: ', embed);
         var playlist = document.querySelector(".js-playlist");
-        playlist.innerHTML = embed.html;
+        var box = document.createElement("div");
+        box.innerHTML = embed.html;
+
+        playlist.insertBefore(box, playlist.firstChild);
+        localStorage.setItem("key", playlist.innerHTML);
     });
 }
+
+
+
+
+
+
+
+
+
+
+var playList = document.querySelector(".js-playlist");
+playList.innerHTML = localStorage.getItem("key");
+
+SoundCloud.init();
+
+SoundCloud.get("SD barman");
