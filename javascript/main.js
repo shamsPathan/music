@@ -163,7 +163,7 @@ UI.seacrhSong = function() {
 }
 
 
-
+// Searching for music
 var searchButton = document.querySelector(".js-submit");
 
 searchButton.addEventListener('click', function() {
@@ -179,3 +179,10 @@ input.addEventListener("keyup", event => {
         UI.onEnter();
     }
 });
+
+
+// Clear Playlist
+var clearPlaylistButton = document.querySelector('.js-clear-playlist');
+clearPlaylistButton.addEventListener('click', function() {
+    document.querySelector('.js-playlist').innerHTML = ''
+})
