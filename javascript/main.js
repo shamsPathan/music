@@ -33,6 +33,13 @@ function makeTrackList(tracks) {
 
 }
 
+
+
+
+
+//  Show cards  ####################
+
+
 SoundCloud.randerTracks = function(track) {
     // card
 
@@ -68,9 +75,9 @@ SoundCloud.randerTracks = function(track) {
     // appending to card
     card.appendChild(content);
 
-    //bottom
-    var bottom = document.createElement("div");
-    bottom.classList.add("ui", "bottom", "attached", "button", "js-button");
+    //button
+    var button = document.createElement("div");
+    button.classList.add("ui", "button", "attached", "button", "js-button");
 
     // i and span
     var i = document.createElement("i");
@@ -78,12 +85,15 @@ SoundCloud.randerTracks = function(track) {
     var span = document.createElement("span");
     span.innerHTML = "Add to playlist";
 
-    // adding to bottom
-    bottom.appendChild(i);
-    bottom.appendChild(span);
+    // adding to button
+    button.appendChild(i);
+    button.appendChild(span);
+    button.addEventListener('click', function() {
+        SoundCloud.getEmbed(track.permalink_url);
+    })
 
-    // adding to card
-    card.appendChild(bottom);
+    // adding button to card
+    card.appendChild(button);
 
     card.classList.add("card");
 
@@ -95,16 +105,27 @@ SoundCloud.randerTracks = function(track) {
 
 SoundCloud.init();
 
-SoundCloud.get("beatles");
+SoundCloud.get("Rilo Kiley");
 
 
 
 
 
-//  Show cards
+
 
 
 
 
 
 // add to playlist and play
+
+SoundCloud.getEmbed = function(trackURL) {
+
+    SC.oEmbed(trackURL, {
+        auto_play: true
+    }).then(function(embed) {
+        console.log('oEmbed response: ', embed);
+        var playlist = document.querySelector(".js-playlist");
+        playlist.innerHTML = embed.html;
+    });
+}
