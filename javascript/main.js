@@ -24,6 +24,10 @@ SoundCloud.get = function(search) {
     });
 }
 
+SoundCloud.refresh = function() {
+    var searchResult = document.querySelector(".js-search-results");
+    searchResult.innerHTML = '';
+}
 
 function makeTrackList(tracks) {
 
@@ -112,6 +116,7 @@ SoundCloud.getEmbed = function(trackURL) {
         console.log('oEmbed response: ', embed);
         var playlist = document.querySelector(".js-playlist");
         var box = document.createElement("div");
+        box.classList.add("playlistBox");
         box.innerHTML = embed.html;
 
         playlist.insertBefore(box, playlist.firstChild);
@@ -131,6 +136,46 @@ SoundCloud.getEmbed = function(trackURL) {
 var playList = document.querySelector(".js-playlist");
 playList.innerHTML = localStorage.getItem("key");
 
-SoundCloud.init();
 
-SoundCloud.get("SD barman");
+
+
+
+
+
+// Search button
+
+
+var UI = {};
+UI.onEnter = function(e) {
+    UI.seacrhSong();
+};
+
+UI.onClick = function() {
+    UI.seacrhSong();
+};
+
+UI.seacrhSong = function() {
+    var input = document.querySelector(".js-search");
+    console.log(input.value);
+    SoundCloud.init();
+    SoundCloud.refresh();
+    SoundCloud.get(input.value);
+}
+
+
+
+var searchButton = document.querySelector(".js-submit");
+
+searchButton.addEventListener('click', function() {
+    UI.onClick();
+});
+
+var input = document.querySelector(".js-search");
+
+input.addEventListener("keyup", event => {
+
+    if (event.which === 13) {
+        console.log("hello");
+        UI.onEnter();
+    }
+});
